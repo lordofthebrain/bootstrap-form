@@ -700,7 +700,7 @@ class BootstrapForm
     {
         $options = $this->getFormGroupOptions($name);
 
-        return '<div' . $this->html->attributes($options) . '>' . $element . '</div>';
+        return new HtmlString('<div' . $this->html->attributes($options) . '>' . $element . '</div>');
     }
 
     /**
@@ -715,7 +715,7 @@ class BootstrapForm
     {
         $options = $this->getFormGroupOptions($name);
 
-        return '<div' . $this->html->attributes($options) . '>' . $this->label($name, $value) . $element . '</div>';
+        return new HtmlString('<div' . $this->html->attributes($options) . '>' . $this->label($name, $value) . $element . '</div>');
     }
 
     /**
