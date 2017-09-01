@@ -68,6 +68,9 @@ class BootstrapForm
      */
     protected $errorBag = 'default';
 
+
+    protected $isButtonGroupOpen = false;
+
     /**
      * Construct the class.
      *
@@ -558,14 +561,17 @@ class BootstrapForm
     public function submit($value = null, array $options = [])
     {
         $options = array_merge(['class' => 'btn btn-primary'], $options);
-
         $inputElement = $this->form->submit($value, $options);
-
         $wrapperOptions = $this->isHorizontal() ? ['class' => implode(' ', [$this->getLeftColumnOffsetClass(), $this->getRightColumnClass()])] : [];
+
+        if($this->isButtonGroupOpen) {
+            return $inputElement;
+        }
         $wrapperElement = '<div' . $this->html->attributes($wrapperOptions) . '>'. $inputElement . '</div>';
 
         return $this->getFormGroup(null, null, $wrapperElement);
     }
+
 
     /**
      * Create a Boostrap button.
@@ -577,13 +583,31 @@ class BootstrapForm
     public function button($value = null, array $options = [])
     {
         $options = array_merge(['class' => 'btn btn-primary'], $options);
-
         $inputElement = $this->form->button($value, $options);
-
         $wrapperOptions = $this->isHorizontal() ? ['class' => implode(' ', [$this->getLeftColumnOffsetClass(), $this->getRightColumnClass()])] : [];
-        $wrapperElement = '<div' . $this->html->attributes($wrapperOptions) . '>'. $inputElement . '</div>';
+
+        if($this->isButtonGroupOpen) {
+            $wrapperElement = $inputElement;
+        }
+        else {
+            $wrapperElement = '<div' . $this->html->attributes($wrapperOptions) . '>' . $inputElement . '</div>';
+        }
 
         return $this->getFormGroup(null, null, $wrapperElement);
+    }
+
+    public function openButtonGroup()
+    {
+        $this->isButtonGroupOpen = true;
+        $wrapperOptions = $this->isHorizontal() ? ['class' => implode(' ', [$this->getLeftColumnOffsetClass(), $this->getRightColumnClass()])] : [];
+        $wrapperElement = '<div' . $this->html->attributes($wrapperOptions) . '>';
+        return $this->getFormGroup(null, null, $wrapperElement);
+    }
+
+    public function closeButtonGroup()
+    {
+        $this->isButtonGroupOpen = false;
+        return new HtmlString('</div>');
     }
 
     /**
@@ -699,8 +723,8 @@ class BootstrapForm
     protected function getFormGroupWithoutLabel($name, $element)
     {
         $options = $this->getFormGroupOptions($name);
-
-        return new HtmlString('<div' . $this->html->attributes($options) . '>' . $element . '</div>');
+        $closeTag = $this->isButtonGroupOpen ? '' : '</div>';
+        return new HtmlString('<div' . $this->html->attributes($options) . '>' . $element . $closeTag);
     }
 
     /**
@@ -714,8 +738,8 @@ class BootstrapForm
     protected function getFormGroupWithLabel($name, $value, $element)
     {
         $options = $this->getFormGroupOptions($name);
-
-        return new HtmlString('<div' . $this->html->attributes($options) . '>' . $this->label($name, $value) . $element . '</div>');
+        $closeTag = $this->isButtonGroupOpen ? '' : '</div>';
+        return new HtmlString(('<div' . $this->html->attributes($options) . '>' . $this->label($name, $value) . $element . $closeTag));
     }
 
     /**
