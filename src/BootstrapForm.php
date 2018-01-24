@@ -62,6 +62,13 @@ class BootstrapForm
     protected $rightColumnClass;
 
     /**
+     * The icon prefix.
+     *
+     * @var string
+     */
+    protected $iconPrefix;
+
+    /**
      * The errorbag that is used for validation (multiple forms)
      *
      * @var string
@@ -664,13 +671,72 @@ class BootstrapForm
     {
         $label = $this->getLabelTitle($label, $name);
 
-        $options = $this->getFieldOptions($options, $name);
-        $inputElement = $type === 'password' ? $this->form->password($name, $options) : $this->form->{$type}($name, $value, $options);
+        $optionsField = $this->getFieldOptions(array_except($options, ['suffix', 'prefix']), $name);
+
+        $inputElement = '';
+
+         if(isset($options['prefix'])) {
+            $inputElement = $options['prefix'];
+        }
+
+        $inputElement .= $type === 'password' ? $this->form->password($name, $optionsField) : $this->form->{$type}($name, $value, $optionsField);
+
+         if(isset($options['suffix'])) {
+            $inputElement .= $options['suffix'];
+        }
+
+         if(isset($options['prefix']) || isset($options['suffix'])) {
+            $inputElement = '<div class="input-group">' . $inputElement . '</div>';
+        }
 
         $wrapperOptions = $this->isHorizontal() ? ['class' => $this->getRightColumnClass()] : [];
-        $wrapperElement = '<div' . $this->html->attributes($wrapperOptions) . '>' . $inputElement . $this->getFieldError($name) . $this->getHelpText($name, $options) . '</div>';
+        $wrapperElement = '<div' . $this->html->attributes($wrapperOptions) . '>' . $inputElement . $this->getFieldError($name) . $this->getHelpText($name, $optionsField) . '</div>';
 
         return $this->getFormGroup($name, $label, $wrapperElement);
+    }
+
+    /**
+     * Create an addon button element.
+     *
+     * @param  string  $label
+     * @param  array  $options
+     * @return string
+     */
+    public function addonButton($label, $options = [])
+    {
+        $attributes = array_merge(['class' => 'btn', 'type' => 'button'], $options);
+
+        if (isset($options['class'])) {
+            $attributes['class'] .= ' btn';
+        }
+
+        return '<div class="input-group-btn"><button ' . $this->html->attributes($attributes) . '>'.$label.'</button></div>';
+    }
+
+    /**
+     * Create an addon text element.
+     *
+     * @param  string  $text
+     * @param  array  $options
+     * @return string
+     */
+    public function addonText($text, $options = [])
+    {
+        return '<div class="input-group-addon"><span ' . $this->html->attributes($options) . '>'.$text.'</span></div>';
+    }
+
+    /**
+     * Create an addon icon element.
+     *
+     * @param  string  $icon
+     * @param  array  $options
+     * @return string
+     */
+    public function addonIcon($icon, $options = [])
+    {
+        $prefix = array_get($options, 'prefix', $this->getIconPrefix());
+
+        return '<div class="input-group-addon"><span ' . $this->html->attributes($options) . '><i class="'.$prefix.$icon.'"></i></span></div>';
     }
 
     /**
@@ -935,6 +1001,16 @@ class BootstrapForm
     public function setRightColumnClass($class)
     {
         $this->rightColumnClass = $class;
+    }
+
+    /**
+     * Get the icon prefix.
+     *
+     * @return string
+     */
+    public function getIconPrefix()
+    {
+        return $this->iconPrefix ?: $this->config->get('bootstrap_form.icon_prefix', 'fa fa-');
     }
 
     /**
