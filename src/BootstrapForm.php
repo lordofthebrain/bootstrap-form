@@ -607,16 +607,14 @@ class BootstrapForm
      * Create a Boostrap link button.
      *
      * @param  string  $link
-     * @param  string  $name
      * @param  string  $label
      * @param  array   $options
      * @return string
 
      */
-    public function linkButton($link, $name, $label = null, array $options = [])
+    public function linkButton($link, $label, array $options = [])
     {
         $options = array_merge(['class' => 'btn btn-default'], $options);
-        $label = $this->getLabelTitle($label, $name);
         return link_to($link, $label, $options);
     }
 
