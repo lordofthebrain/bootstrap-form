@@ -629,7 +629,7 @@ class BootstrapForm
     public function closeButtonGroup()
     {
         $this->isButtonGroupOpen = false;
-        return new HtmlString('</div>');
+        return new HtmlString('</div></div>');
     }
 
     /**
