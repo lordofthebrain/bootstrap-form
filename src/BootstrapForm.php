@@ -609,12 +609,17 @@ class BootstrapForm
      * @param  string  $link
      * @param  string  $label
      * @param  array   $options
+     * @param  bool $disable
      * @return string
 
      */
-    public function linkButton($link, $label, array $options = [])
+    public function linkButton($link, $label, array $options = [], bool $disable = false)
     {
         $options = array_merge(['class' => 'btn btn-default'], $options);
+        if($disable) {
+            $options['disabled'] = 'disabled';
+            $options['style'] = 'pointer-events: none';
+        }
         return link_to($link, $label, $options);
     }
 
