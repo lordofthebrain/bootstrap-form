@@ -620,9 +620,9 @@ class BootstrapForm
         $options = array_merge(['class' => 'btn btn-default'], $options);
         if($disable) {
             $options['disabled'] = 'disabled';
-            $options['style'] = 'cursor: not-allowed; pointer-events: none';
+            $options['style'] = 'pointer-events: none';
         }
-        return link_to($link, $label, $options);
+        return new HtmlString('<span style="cursor: not-allowed"' . link_to($link, $label, $options) . '</span>');
     }
 
     public function openButtonGroup()
@@ -792,13 +792,13 @@ class BootstrapForm
      */
     public function select2($name, $label = null, $list = [], $selected = null, array $options = [])
     {
-        $options['class'] = array_key_exists('class', $options) ? $options['class'] .= 'selectpicker' : 'selectpicker';
-        $extraOptions = [
+        $options['class'] = array_key_exists('class', $options) ? ('selectpicker ' . $options['class']) : 'selectpicker';
+        $select2Options = [
             "data-live-search" => "true",
             "data-size" => "10",
             "data-container" => "body"
         ];
-        $options = array_merge($options, $extraOptions);
+        $options = array_merge($options, $select2Options);
         return $this->select($name, $label, $list, $selected, $options);
     }
 
