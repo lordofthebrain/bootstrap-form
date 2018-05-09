@@ -620,9 +620,9 @@ class BootstrapForm
         if ($disable) {
             $options['disabled'] = 'disabled';
             $options['style'] = 'pointer-events: none';
-            return new HtmlString('<span style="cursor: not-allowed"' . link_to($link, $label, $options) . '</span>');
+            return new HtmlString('<span style="cursor: not-allowed"' . link_to($link, $label, $options, null, false) . '</span>');
         }
-        return link_to($link, $label, $options);
+        return link_to($link, $label, $options, null, false);
     }
 
     public function openButtonGroup()
