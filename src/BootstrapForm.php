@@ -131,12 +131,12 @@ class BootstrapForm
             'right_column_class'
         ]);
 
-        if (array_key_exists('model', $options)) {
-            return $this->model($options);
-        }
-
         if (array_key_exists('error_bag', $options)) {
             $this->setErrorBag($options['error_bag']);
+        }
+
+        if (array_key_exists('model', $options)) {
+            return $this->model($options);
         }
 
         return $this->form->open($options);
