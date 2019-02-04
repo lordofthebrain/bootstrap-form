@@ -1,18 +1,15 @@
 BootstrapForm, forms for Laravel 5
 ==================================
 
-[![Circle CI](https://circleci.com/gh/dwightwatson/bootstrap-form/tree/master.svg?style=shield)](https://circleci.com/gh/dwightwatson/bootstrap-form/tree/master)
-[![Total Downloads](https://poser.pugx.org/watson/bootstrap-form/downloads.svg)](https://packagist.org/packages/watson/bootstrap-form)
-[![Latest Stable Version](https://poser.pugx.org/watson/bootstrap-form/v/stable.svg)](https://packagist.org/packages/watson/bootstrap-form)
-[![Latest Unstable Version](https://poser.pugx.org/watson/bootstrap-form/v/unstable.svg)](https://packagist.org/packages/watson/bootstrap-form)
-[![License](https://poser.pugx.org/watson/bootstrap-form/license.svg)](https://packagist.org/packages/watson/bootstrap-form)
+This is a fork of Dwight Watson's Bootstrap 3 Form Builder updated/re-styled to use Bootstrap 4 classes, etc. in Laravel 5 applications. It extends the Laravel Collective form builder to provide you with horizontal form groups completed with labels, error messages and appropriate class usage.
 
-
-This is a package for simply creating Bootstrap 3 styled form groups in Laravel 5. It extends the normal form builder to provide you with horizontal form groups completed with labels, error messages and appropriate class usage.
+[![Total Downloads](https://poser.pugx.org/realripley00/bootstrap-4-form/downloads)](https://packagist.org/packages/realripley00/bootstrap-4-form)
+[![Monthly Downloads](https://poser.pugx.org/realripley00/bootstrap-4-form/d/monthly)](https://packagist.org/packages/realripley00/bootstrap-4-form)
+[![License](https://poser.pugx.org/realripley00/bootstrap-4-form/license)](https://packagist.org/packages/realripley00/bootstrap-4-form)
 
 ## Introduction
 
-Simply use the `BootstrapForm` facade in the place of the `Form` facade when you want to generate a Bootstrap 3 form group.
+Simply use the `BootstrapForm` facade in the place of the `Form` facade when you want to generate a Bootstrap 4 form group. If you use the alias below, it would look like this: BootForm::open(), etc.
 
 ```php
 BootForm::text('username');
@@ -22,7 +19,7 @@ And you'll get back the following:
 
 ```html
 <div class="form-group">
-    <label for="username" class="control-label col-md-2">Username</label>
+    <label for="username" class="form-control-label col-md-2">Username</label>
     <div class="col-md-10">
         <input type="text" name="username" class="form-control">
     </div>
@@ -32,7 +29,7 @@ And you'll get back the following:
 Of course, if there are errors for that field it will even populate them.
 ```html
 <div class="form-group has-error">
-    <label for="username" class="control-label col-md-2">Username</label>
+    <label for="username" class="form-control-label col-md-2">Username</label>
     <div class="col-md-10">
         <input type="text" name="username" class="form-control">
         <span class="help-block">The username field is required.</span>
@@ -40,19 +37,21 @@ Of course, if there are errors for that field it will even populate them.
 </div>
 ```
 
+If you're familiar with Dwight Watson's Bootstrap 3 form package, this is basically the same thing but for Bootstrap 4 forms.
+
 ## Installation
 
 First, require the package using Composer.
 
 ```shell
-composer require watson/bootstrap-form
+composer require realripley00/bootstrap-4-form
 ```
 
 Now, add these service providers to your `config/app.php` file (don't add the `HtmlServiceProvider` if you already have it).
 
 ```php
 Collective\Html\HtmlServiceProvider::class,
-Watson\BootstrapForm\BootstrapFormServiceProvider::class,
+RealRipley\BootstrapForm\BootstrapFormServiceProvider::class,
 ```
 
 And finally add these to the aliases array (note: Form and Html must be listed before BootstrapForm):
@@ -60,10 +59,8 @@ And finally add these to the aliases array (note: Form and Html must be listed b
 ```php
 'Form'     => Collective\Html\FormFacade::class,
 'HTML'     => Collective\Html\HtmlFacade::class,
-'BootForm' => Watson\BootstrapForm\Facades\BootstrapForm::class,
+'BootForm' => RealRipley\BootstrapForm\Facades\BootstrapForm::class,
 ```
-
-Feel free to use a different alias for BootstrapForm if you'd prefer something shorter.
 
 ## Configuration
 
@@ -72,6 +69,8 @@ There are a number of configuration options available for BootstrapForm. Run the
 ```shell
 php artisan vendor:publish
 ```
+
+Then just arrow down to this package.
 
 ### Horizontal form sizes
 
@@ -153,7 +152,7 @@ BootForm::password();
 
 ### Checkbox and radio button inputs
 
-Checkboxes and radio buttons are a little bit different and generate different markup.
+Checkboxes and radio buttons (TODO) are a little bit different and generate different markup.
 
 View the method signature for configuration options.
 
@@ -162,10 +161,10 @@ View the method signature for configuration options.
 BootForm::checkbox('interests[]', 'Laravel', 'laravel', true);
 ```
 
-Same goes for radio inputs.
+Radio buttons aren't working just yet... Should be updating soon.
 
 ```php
-BootForm::radio('gender', 'Male', 'male');
+//BootForm::radio('gender', 'Male', 'male');
 ```
 
 #### Multiple checkboxes and radio buttons
@@ -177,8 +176,8 @@ $label = 'this is just a label';
 
 $interests = [
     'laravel' => 'Laravel',
-    'rails'   => 'Rails',
-    'ie6'     => 'Internet Explorer 6'
+    'react'   => 'React',
+    'vue'     => 'Vue'
 ];
 
 // Checkbox inputs with Laravel and Rails selected.
@@ -257,3 +256,7 @@ Add prefix and/or suffix to any input - you can add text, icon and buttons.
 // Prefix and suffix with button
 {!! BootForm::text('tel', 'Phone', null, ['suffix' => BootForm::addonButton('Boom!', ['class' => 'btn-danger']), 'prefix' => BootForm::addonButton('Call', ['class' => 'btn-success'])] ) !!}
 ```
+
+### Dwight Watson's original Bootstrap 3 Form Builder
+
+This is a fork of this awesome package, tweaked a bit to use Bootstrap 4.

@@ -27,11 +27,10 @@ return [
     |
     */
 
-    'left_column_class'  => 'col-sm-2 col-md-3',
-    'right_column_class' => 'col-sm-10 col-md-9',
+    'left_column_class'  => 'col-lg-2 col-lg-3',
+    'right_column_class' => 'col-lg-10 col-lg-9',
 
-    'left_column_offset_class' => 'col-sm-offset-2 col-md-offset-3',
-
+    'left_column_offset_class' => 'col-lg-offset-2 col-lg-offset-3',
     /*
     |--------------------------------------------------------------------------
     | Error output
@@ -49,33 +48,9 @@ return [
     | Icon prefix
     |--------------------------------------------------------------------------
     |
-    | Here you may specify the icon prefix, defaulted to Font Awesome.
+    | Here you may specify the icon prefix, for instance fa fa- to Font Awesome . ~4, etc.
     |
     */
 
-    'icon_prefix' => 'fa fa-',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Default error bag
-    |--------------------------------------------------------------------------
-    |
-    | Here you may specify the default error bag to retrieve form errors from.
-    | If there is not a default error bag, set it to null.
-    |
-    */
-
-    'error_bag' => 'default',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Error class
-    |--------------------------------------------------------------------------
-    |
-    | Here you may specify the error class.
-    |
-    */
-
-    'error_class' => 'has-error'
-
+    'icon_prefix' => ''
 ];
