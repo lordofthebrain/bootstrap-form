@@ -39,7 +39,7 @@ return [
     | Here you may specify the whether all the errors of an input should be
     | displayed or just the first one.
     |
-     */
+    */
 
     'show_all_errors' => true,
 
