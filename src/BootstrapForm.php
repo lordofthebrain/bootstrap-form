@@ -270,7 +270,7 @@ class BootstrapForm
         $inputElement = '<p' . $this->html->attributes($options) . '>' . $value . '</p>';
 
         $wrapperOptions = $this->isHorizontal() ? ['class' => $this->getRightColumnClass()] : [];
-        $wrapperElement = '<div' . $this->html->attributes($wrapperOptions) . '>' . $inputElement . $this->getFieldError($name) . $this->getHelpText($name, $options) . '</div>';
+        $wrapperElement = '<div' . $this->html->attributes($wrapperOptions) . '>' . $inputElement . $this->getFieldError($name) . $this->getHelpText($options) . '</div>';
 
         return $this->getFormGroup($name, $label, $wrapperElement);
     }
@@ -415,7 +415,7 @@ class BootstrapForm
         $inputElement = $this->checkboxElement($name, $label, $value, $checked, false, $options);
 
         $wrapperOptions = $this->isHorizontal() ? ['class' => implode(' ', [$this->getLeftColumnOffsetClass(), $this->getRightColumnClass()])] : [];
-        $wrapperElement = '<div' . $this->html->attributes($wrapperOptions) . '>' . $inputElement . $this->getFieldError($name) . $this->getHelpText($name, $options) . '</div>';
+        $wrapperElement = '<div' . $this->html->attributes($wrapperOptions) . '>' . $inputElement . $this->getFieldError($name) . $this->getHelpText($options) . '</div>';
 
         return $this->getFormGroup($name, null, $wrapperElement);
     }
@@ -472,7 +472,7 @@ class BootstrapForm
         }
 
         $wrapperOptions = $this->isHorizontal() ? ['class' => $this->getRightColumnClass()] : [];
-        $wrapperElement = '<div' . $this->html->attributes($wrapperOptions) . '>' . $elements . $this->getFieldError($name) . $this->getHelpText($name, $options) . '</div>';
+        $wrapperElement = '<div' . $this->html->attributes($wrapperOptions) . '>' . $elements . $this->getFieldError($name) . $this->getHelpText($options) . '</div>';
 
         return $this->getFormGroup($name, $label, $wrapperElement);
     }
@@ -544,7 +544,7 @@ class BootstrapForm
         }
 
         $wrapperOptions = $this->isHorizontal() ? ['class' => $this->getRightColumnClass()] : [];
-        $wrapperElement = '<div' . $this->html->attributes($wrapperOptions) . '>' . $elements . $this->getFieldError($name) . $this->getHelpText($name, $options) . '</div>';
+        $wrapperElement = '<div' . $this->html->attributes($wrapperOptions) . '>' . $elements . $this->getFieldError($name) . $this->getHelpText($options) . '</div>';
 
         return $this->getFormGroup($name, $label, $wrapperElement);
     }
@@ -668,7 +668,7 @@ class BootstrapForm
         $inputElement = $this->form->input('file', $name, null, $options);
 
         $wrapperOptions = $this->isHorizontal() ? ['class' => $this->getRightColumnClass()] : [];
-        $wrapperElement = '<div' . $this->html->attributes($wrapperOptions) . '>' . $inputElement . $this->getFieldError($name) . $this->getHelpText($name, $options) . '</div>';
+        $wrapperElement = '<div' . $this->html->attributes($wrapperOptions) . '>' . $inputElement . $this->getFieldError($name) . $this->getHelpText($options) . '</div>';
 
         return $this->getFormGroup($name, $label, $wrapperElement);
     }
@@ -701,7 +701,7 @@ class BootstrapForm
             $inputElement .= sprintf($options['suffix'], 'append');
         }
 
-        $inputElement .= $this->getFieldError($name) . $this->getHelpText($name, $optionsField);
+        $inputElement .= $this->getFieldError($name) . $this->getHelpText($optionsField);
 
         if (isset($options['prefix']) || isset($options['suffix'])) {
             $inputElement = '<div class="input-group">' . $inputElement . '</div>';
@@ -787,7 +787,7 @@ class BootstrapForm
         $inputElement = $this->form->select($name, $list, $selected, $options);
 
         $wrapperOptions = $this->isHorizontal() ? ['class' => $this->getRightColumnClass()] : [];
-        $wrapperElement = '<div' . $this->html->attributes($wrapperOptions) . '>' . $inputElement . $this->getFieldError($name) . $this->getHelpText($name, $options) . '</div>';
+        $wrapperElement = '<div' . $this->html->attributes($wrapperOptions) . '>' . $inputElement . $this->getFieldError($name) . $this->getHelpText($options) . '</div>';
 
         return $this->getFormGroup($name, $label, $wrapperElement);
     }
@@ -1124,10 +1124,9 @@ class BootstrapForm
      * format, defaulting to the normal Bootstrap 3 format.
      *
      * @param  string $field
-     * @param  string $format
      * @return mixed
      */
-    protected function getFieldError($field, $format = '<div class="invalid-feedback">:message</div>')
+    protected function getFieldError($field)
     {
         $field = $this->flattenFieldName($field);
 
@@ -1140,6 +1139,7 @@ class BootstrapForm
                 $errorBag = $this->getErrors();
             }
 
+            $format = '<div class="invalid-feedback">:message</div>';
             if ($allErrors) {
                 return implode('', $errorBag->get($field, $format));
             }
@@ -1153,10 +1153,9 @@ class BootstrapForm
      * errors, defaulting to the normal Bootstrap 3 error class.
      *
      * @param  string $field
-     * @param  string $class
      * @return string
      */
-    protected function getFieldErrorClass($field, $class = 'is-invalid')
+    protected function getFieldErrorClass($field)
     {
         return $this->getFieldError($field) ? $this->getErrorClass() : null;
     }
@@ -1164,11 +1163,10 @@ class BootstrapForm
     /**
      * Get the help text for the given field.
      *
-     * @param  string $field
      * @param  array $options
      * @return string
      */
-    protected function getHelpText($field, array $options = [])
+    protected function getHelpText(array $options = [])
     {
         if (array_key_exists('help_text', $options)) {
             return '<span class="help-block">' . e($options['help_text']) . '</span>';

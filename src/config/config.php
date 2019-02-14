@@ -27,10 +27,10 @@ return [
     |
     */
 
-    'left_column_class'  => 'col-lg-2 col-lg-3',
-    'right_column_class' => 'col-lg-10 col-lg-9',
+    'left_column_class'  => 'col-lg-3 col-form-label text-lg-right',
+    'right_column_class' => 'col-lg-9',
 
-    'left_column_offset_class' => 'col-lg-offset-2 col-lg-offset-3',
+    'left_column_offset_class' => 'offset-lg-3',
     /*
     |--------------------------------------------------------------------------
     | Error output
@@ -41,7 +41,9 @@ return [
     |
     */
 
-    'show_all_errors' => false,
+    'show_all_errors' => true,
+
+    'error_class' => 'is-invalid',
 
     /*
     |--------------------------------------------------------------------------

@@ -3,9 +3,7 @@ BootstrapForm, forms for Laravel 5
 
 This is a fork of Dwight Watson's Bootstrap 3 Form Builder updated/re-styled to use Bootstrap 4 classes, etc. in Laravel 5 applications. It extends the Laravel Collective form builder to provide you with horizontal form groups completed with labels, error messages and appropriate class usage.
 
-[![Total Downloads](https://poser.pugx.org/realripley00/bootstrap-4-form/downloads)](https://packagist.org/packages/realripley00/bootstrap-4-form)
-[![Monthly Downloads](https://poser.pugx.org/realripley00/bootstrap-4-form/d/monthly)](https://packagist.org/packages/realripley00/bootstrap-4-form)
-[![License](https://poser.pugx.org/realripley00/bootstrap-4-form/license)](https://packagist.org/packages/realripley00/bootstrap-4-form)
+If you want use Bootstrap 3 install version of this package < v2.0.0
 
 ## Introduction
 
@@ -44,22 +42,7 @@ If you're familiar with Dwight Watson's Bootstrap 3 form package, this is basica
 First, require the package using Composer.
 
 ```shell
-composer require realripley00/bootstrap-4-form
-```
-
-Now, add these service providers to your `config/app.php` file (don't add the `HtmlServiceProvider` if you already have it).
-
-```php
-Collective\Html\HtmlServiceProvider::class,
-RealRipley\BootstrapForm\BootstrapFormServiceProvider::class,
-```
-
-And finally add these to the aliases array (note: Form and Html must be listed before BootstrapForm):
-
-```php
-'Form'     => Collective\Html\FormFacade::class,
-'HTML'     => Collective\Html\HtmlFacade::class,
-'BootForm' => RealRipley\BootstrapForm\Facades\BootstrapForm::class,
+composer require watson/bootstrap-form
 ```
 
 ## Configuration
