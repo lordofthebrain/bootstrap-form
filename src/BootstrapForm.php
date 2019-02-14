@@ -114,11 +114,6 @@ class BootstrapForm
         // Set the HTML5 role.
         $options['role'] = 'form';
 
-        // Set the class for the form type.
-        if (!array_key_exists('class', $options)) {
-            $options['class'] = $this->getType();
-        }
-
         if (array_key_exists('left_column_class', $options)) {
             $this->setLeftColumnClass($options['left_column_class']);
         }
