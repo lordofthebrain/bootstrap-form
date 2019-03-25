@@ -113,8 +113,13 @@ class BootstrapForm
     {
         // Set the HTML5 role.
         $options['role'] = 'form';
-
-        if (array_key_exists('left_column_class', $options)) {
+	
+	// Set the class for the form type.
+        if (!array_key_exists('class', $options) && !empty($this->getType())) {
+            $options['class'] = $this->getType();
+        }
+	
+	if (array_key_exists('left_column_class', $options)) {
             $this->setLeftColumnClass($options['left_column_class']);
         }
 
@@ -431,10 +436,12 @@ class BootstrapForm
         $label = $label === false ? null : $this->getLabelTitle($label, $name);
 
         $options['class'] = 'form-check-input' . (isset($options['class']) ? ' ' . $options['class'] : '');
-
-        $options['id'] = isset($options['id']) ? $options['id'] : $name . $value;
-
-        $labelElement = $this->form->label($options['id'], $label, ['class' => 'form-check-label']);
+        
+	$labelElement = '';
+        if($label !== null) {
+            $options['id'] = isset($options['id']) ? $options['id'] : $name . $value;
+            $labelElement = $this->form->label($options['id'], $label, ['class' => 'form-check-label']);
+        }
         $inputElement = $this->form->checkbox($name, $value, $checked, $options);
 
         $classes = 'form-check';
@@ -622,9 +629,9 @@ class BootstrapForm
      */
     public function linkButton($link, $label, array $options = [], bool $disable = false)
     {
-        $options = array_merge(['class' => 'btn btn-default'], $options);
-        if ($disable) {
-            $options['disabled'] = 'disabled';
+        $options = array_merge(['class' => 'btn btn-light'], $options);
+	if ($disable) {
+	    $options['class'] .= ' disabled';
             $options['style'] = 'pointer-events: none';
             return new HtmlString('<span style="cursor: not-allowed">' . link_to($link, $label, $options, null, false) . '</span>');
         }
@@ -890,6 +897,9 @@ class BootstrapForm
 
         if ($this->isHorizontal()) {
             $class .= ' row';
+	}
+        elseif ($this->getType() === Type::INLINE) {
+            $class .= ' ' .  ($this->config->get('bootstrap_form.inline_margin_right_class') ?? 'mr-2');
         }
 
         if ($name) {

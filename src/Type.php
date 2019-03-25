@@ -16,7 +16,7 @@ class Type
      *
      * @var string
      */
-    const HORIZONTAL = 'form-horizontal';
+    const HORIZONTAL = '';
 
     /**
      * Inline form class.

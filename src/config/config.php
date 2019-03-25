@@ -31,6 +31,8 @@ return [
     'right_column_class' => 'col-lg-9',
 
     'left_column_offset_class' => 'offset-lg-3',
+
+    'inline_margin_right_class' => 'mr-2',
     /*
     |--------------------------------------------------------------------------
     | Error output
