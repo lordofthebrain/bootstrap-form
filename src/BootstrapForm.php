@@ -113,13 +113,13 @@ class BootstrapForm
     {
         // Set the HTML5 role.
         $options['role'] = 'form';
-	
-	// Set the class for the form type.
+
+        // Set the class for the form type.
         if (!array_key_exists('class', $options) && !empty($this->getType())) {
             $options['class'] = $this->getType();
         }
-	
-	if (array_key_exists('left_column_class', $options)) {
+
+        if (array_key_exists('left_column_class', $options)) {
             $this->setLeftColumnClass($options['left_column_class']);
         }
 
@@ -413,7 +413,6 @@ class BootstrapForm
     public function checkbox($name, $label = null, $value = 1, $checked = null, array $options = [])
     {
         $inputElement = $this->checkboxElement($name, $label, $value, $checked, false, $options);
-
         $wrapperOptions = $this->isHorizontal() ? ['class' => implode(' ', [$this->getLeftColumnOffsetClass(), $this->getRightColumnClass()])] : [];
         $wrapperElement = '<div' . $this->html->attributes($wrapperOptions) . '>' . $inputElement . $this->getFieldError($name) . $this->getHelpText($options) . '</div>';
 
@@ -434,12 +433,11 @@ class BootstrapForm
     public function checkboxElement($name, $label = null, $value = 1, $checked = null, $inline = false, array $options = [])
     {
         $label = $label === false ? null : $this->getLabelTitle($label, $name);
-
         $options['class'] = 'form-check-input' . (isset($options['class']) ? ' ' . $options['class'] : '');
-        
-	$labelElement = '';
+
+        $labelElement = '';
         if($label !== null) {
-            $options['id'] = isset($options['id']) ? $options['id'] : $name . $value;
+            $options['id'] = $options['id'] ?? ($name . $value);
             $labelElement = $this->form->label($options['id'], $label, ['class' => 'form-check-label']);
         }
         $inputElement = $this->form->checkbox($name, $value, $checked, $options);
@@ -515,13 +513,18 @@ class BootstrapForm
         $label = $label === false ? null : $this->getLabelTitle($label, $name);
 
         $value = is_null($value) ? $label : $value;
+        $labelOptions = ['class' => 'form-check-label'];
 
-        $labelOptions = $inline ? ['class' => 'custom-control custom-radio'] : [];
-
+        $labelElement = '';
+        if($label !== null) {
+            $options['id'] = $options['id'] ?? ($name . '_' . $value);
+            $labelFor = ' for="' . $options['id'];
+            $labelElement = '<label' . $this->html->attributes($labelOptions) . $labelFor . '">' . $label . '</label>';
+        }
+        $options['class'] = 'form-check-input';
         $inputElement = $this->form->radio($name, $value, $checked, $options);
-        $labelElement = '<label ' . $this->html->attributes($labelOptions) . '>' . $inputElement . $label . '</label>';
-
-        return $inline ? $labelElement : '<div class="custom-control custom-radio">' . $labelElement . '</div>';
+        $formClass = 'form-check' . ($inline ? ' form-check-inline' : '');
+        return '<div class="' . $formClass . '">' . $inputElement . $labelElement .'</div>';
     }
 
     /**
@@ -546,8 +549,8 @@ class BootstrapForm
         }
 
         $wrapperOptions = $this->isHorizontal() ? ['class' => $this->getRightColumnClass()] : [];
+        $wrapperOptions['class'] .= ' col-form-label';
         $wrapperElement = '<div' . $this->html->attributes($wrapperOptions) . '>' . $elements . $this->getFieldError($name) . $this->getHelpText($options) . '</div>';
-
         return $this->getFormGroup($name, $label, $wrapperElement);
     }
 
@@ -630,8 +633,8 @@ class BootstrapForm
     public function linkButton($link, $label, array $options = [], bool $disable = false)
     {
         $options = array_merge(['class' => 'btn btn-light'], $options);
-	if ($disable) {
-	    $options['class'] .= ' disabled';
+        if ($disable) {
+            $options['class'] .= ' disabled';
             $options['style'] = 'pointer-events: none';
             return new HtmlString('<span style="cursor: not-allowed">' . link_to($link, $label, $options, null, false) . '</span>');
         }
@@ -897,7 +900,8 @@ class BootstrapForm
 
         if ($this->isHorizontal()) {
             $class .= ' row';
-	}
+        }
+
         elseif ($this->getType() === Type::INLINE) {
             $class .= ' ' .  ($this->config->get('bootstrap_form.inline_margin_right_class') ?? 'mr-2');
         }
@@ -905,8 +909,7 @@ class BootstrapForm
         if ($name) {
             $class .= ' ' . $this->getFieldErrorClass($name);
         }
-
-        return array_merge(['class' => $class], $options);
+        return array_merge(['class' => trim($class)], $options);
     }
 
     /**
