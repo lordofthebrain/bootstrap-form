@@ -144,10 +144,10 @@ View the method signature for configuration options.
 BootForm::checkbox('interests[]', 'Laravel', 'laravel', true);
 ```
 
-Radio buttons aren't working just yet... Should be updating soon.
+Radio buttons are working again since v2.1.1
 
 ```php
-//BootForm::radio('gender', 'Male', 'male');
+BootForm::radio('gender', 'Male', 'male');
 ```
 
 #### Multiple checkboxes and radio buttons
