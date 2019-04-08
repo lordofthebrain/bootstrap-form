@@ -520,8 +520,9 @@ class BootstrapForm
             $options['id'] = $options['id'] ?? ($name . '_' . $value);
             $labelFor = ' for="' . $options['id'];
             $labelElement = '<label' . $this->html->attributes($labelOptions) . $labelFor . '">' . $label . '</label>';
-        }
-        $options['class'] = 'form-check-input';
+	}
+	$isInvalid = empty($this->getFieldError($name))  ? '' : ' is-invalid';
+        $options['class'] = 'form-check-input' . $isInvalid;
         $inputElement = $this->form->radio($name, $value, $checked, $options);
         $formClass = 'form-check' . ($inline ? ' form-check-inline' : '');
         return '<div class="' . $formClass . '">' . $inputElement . $labelElement .'</div>';
