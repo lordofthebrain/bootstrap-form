@@ -149,6 +149,12 @@ Radio buttons are working again since v2.1.1
 ```php
 BootForm::radio('gender', 'Male', 'male');
 ```
+**Note: Add the following line to your custom bootstrap css to see validiation error messages**
+```css
+.col-form-label .invalid-feedback {
+    display: block;
+}
+```
 
 #### Multiple checkboxes and radio buttons
 
